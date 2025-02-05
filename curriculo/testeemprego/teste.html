@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste prático</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <div class="form" id="formulario">
+            <h1>Cadastro de Produto</h1>
+            <input type="text" id="nome" placeholder="Nome do produto" required>
+            <input type="text" id="descricao" placeholder="Descrição do produto">
+            <input type="number" id="valor" placeholder="Valor do produto">
+            <p><p>Disponivel para venda? </p>
+            <select id="disponivel" >
+                <option value="sim">Sim</option>
+                <option value="nao">Não</option>
+            </select>
+            <input type="button" value="Cadastrar" onclick="cadastrarProduto()" >
+        </div>
+
+        <div class="tabela" id="tabelaform">
+            <h2>Lista de Produtos</h2>
+            
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                
+            
+                    <tbody id="tabelaProdutos"></tbody>
+                </table>
+            <input type="button" value="Cadastrar novo produto" onclick="cadastrarnovoProduto()">
+        </div>
+        <script src="script.js"></script>
+</body>
+</html>

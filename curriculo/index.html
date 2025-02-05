@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Produtos</title>
+    <style>
+        /* Estilos básicos para a página */
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 400px; margin: auto; }
+        input, select, button { display: block; width: 100%; margin: 10px 0; padding: 8px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #f4f4f4; }
+        .hidden { display: none; } /* Classe para esconder elementos */
+    </style>
+</head>
+<body>
+    <!-- Formulário para cadastrar produtos -->
+    <div class="container" id="formContainer">
+        <h2>Cadastro de Produto</h2>
+        <input type="text" id="nome" placeholder="Nome do Produto" required> <!-- Campo para o nome do produto -->
+        <input type="text" id="descricao" placeholder="Descrição do Produto"> <!-- Campo para a descrição -->
+        <input type="number" id="valor" placeholder="Valor do Produto" required> <!-- Campo para o valor -->
+        <select id="disponivel"> <!-- Opção para definir se o produto está disponível -->
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
+        <button onclick="cadastrarProduto()">Cadastrar</button> <!-- Botão para cadastrar produto -->
+    </div>
+
+    <!-- Tabela para listar os produtos cadastrados -->
+    <div class="container hidden" id="listaContainer">
+        <h2>Lista de Produtos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaProdutos"></tbody> <!-- Aqui serão exibidos os produtos cadastrados -->
+        </table>
+        <button onclick="mostrarFormulario()">Cadastrar Novo Produto</button> <!-- Botão para voltar ao formulário -->
+    </div>
+
+    <script>
+        let produtos = []; // Array que armazenará os produtos cadastrados
+
+        function cadastrarProduto() {
+            // Obtendo os valores dos campos preenchidos pelo usuário
+            let nome = document.getElementById('nome').value;
+            let descricao = document.getElementById('descricao').value;
+            let valor = Number(document.getElementById('valor').value); // Convertendo o valor para número
+            let disponivel = document.getElementById('disponivel').value;
+
+            // Verificando se o nome foi preenchido e se o valor é um número válido
+            if (!nome || isNaN(valor)) {
+                alert('Preencha os campos corretamente!'); // Exibe um alerta caso algum campo esteja incorreto
+                return;
+            }
+            
+            // Adicionando o novo produto ao array de produtos
+            produtos.push({ nome, descricao, valor, disponivel });
+            
+            // Ordenando os produtos pelo valor do menor para o maior
+            produtos.sort((a, b) => a.valor - b.valor);
+            
+            // Atualizando a tabela com os produtos cadastrados
+            atualizarLista();
+            
+            // Limpando os campos do formulário após cadastro
+            limparFormulario();
+            
+            // Exibindo a lista de produtos
+            mostrarLista();
+        }
+
+        function atualizarLista() {
+            let tabela = document.getElementById('tabelaProdutos'); // Obtendo a tabela
+            tabela.innerHTML = ''; // Limpando a tabela antes de inserir os produtos
+            
+            // Percorrendo o array de produtos e adicionando à tabela
+            produtos.forEach(produto => {
+                let linha = `<tr><td>${produto.nome}</td><td>R$ ${produto.valor.toFixed(2)}</td></tr>`;
+                tabela.innerHTML += linha;
+            });
+        }
+
+        function mostrarLista() {
+            // Escondendo o formulário e mostrando a listagem de produtos
+            document.getElementById('formContainer').classList.add('hidden');
+            document.getElementById('listaContainer').classList.remove('hidden');
+        }
+
+        function mostrarFormulario() {
+            // Mostrando o formulário e escondendo a listagem
+            document.getElementById('formContainer').classList.remove('hidden');
+            document.getElementById('listaContainer').classList.add('hidden');
+        }
+        
+        function limparFormulario() {
+            // Função para limpar os campos do formulário após cadastro
+            document.getElementById('nome').value = '';
+            document.getElementById('descricao').value = '';
+            document.getElementById('valor').value = '';
+            document.getElementById('disponivel').value = 'sim';
+        }
+    </script>
+</body>
+</html>
